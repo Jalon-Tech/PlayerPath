@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PlayerPath — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#e60023;
+
+  --bg:#0e0e10;
+  --surface:#131315;
+  --surface-2:#191a1d;
+  --soft:#17181b;
+  --tag:#1d1e22;
+  --border:#2a2b31;
+
+  --ink:#f4f5f7;
+  --ink-dim:#b8bcc4;
+
+  --radius:14px;
+  --shadow-1:0 1px 1px rgba(0,0,0,.35), 0 10px 24px rgba(0,0,0,.45);
+  --shadow-2:0 2px 8px rgba(0,0,0,.45), 0 20px 48px rgba(0,0,0,.55);
+  --ring:0 0 0 3px rgba(230,0,35,.28);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* Scrollbar */
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:#0b0b0d}
+*::-webkit-scrollbar-thumb{background:#2a2b31;border-radius:8px;border:2px solid #0b0b0d}
+*{scrollbar-color:#2a2b31 #0b0b0d}
+
+/* ===== TOP BAR (not sticky) ===== */
+.top{background:var(--surface);border-bottom:1px solid var(--border)}
+.top-inner{height:72px;display:flex;align-items:center;gap:16px;max-width:1440px;margin:0 auto;padding:0 20px}
+
+/* Brand */
+.brand{display:flex;align-items:center;gap:.6rem;font-family:Orbitron,Inter,sans-serif;font-weight:800;letter-spacing:.8px;text-transform:uppercase;font-size:1.6rem;line-height:1}
+.brand .mark{width:24px;height:24px;border-radius:8px;background:var(--brand);box-shadow:0 0 0 2px rgba(230,0,35,.22)}
+.brand .word{display:flex;gap:2px}
+.brand .half{-webkit-text-stroke:1px #000;text-shadow:0 1px 0 rgba(0,0,0,.45),0 0 10px rgba(0,0,0,.35)}
+.brand .half-red{color:var(--brand)}
+.brand .half-white{color:#fff;letter-spacing:1px;text-shadow:0 0 6px rgba(230,0,35,.45),0 1px 2px rgba(0,0,0,.65)}
+
+.ppword{display:inline-flex;gap:2px;align-items:baseline;font-family:Orbitron,Inter,sans-serif;text-transform:uppercase;font-weight:800;letter-spacing:.6px;line-height:1}
+.ppword .pp-red{color:var(--brand);-webkit-text-stroke:1px #000}
+.ppword .pp-white{color:#fff;letter-spacing:.8px;text-shadow:0 0 6px rgba(230,0,35,.45),0 1px 2px rgba(0,0,0,.65)}
+
+.btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+.btn.primary{background:var(--brand);color:#fff;box-shadow:0 8px 22px rgba(230,0,35,.28);transition:transform .12s ease,filter .15s ease,box-shadow .2s ease}
+.btn.primary:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:var(--shadow-2)}
+.btn.ghost{background:#0f0f12;color:#f1f2f4;border:1px solid #24252a}
+
+/* Focus only for keyboard nav */
+a:focus,button:focus,[tabindex]:focus{outline:0;box-shadow:none;border-radius:8px}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:0;box-shadow:var(--ring);border-radius:8px}
+html{-webkit-tap-highlight-color:transparent}
+
+/* ===== APP GRID — areas (robust, no overlap) ===== */
+.app{
+  display:grid;
+  grid-template-columns: 220px minmax(0,1fr) 320px;
+  grid-template-areas: "nav main rail";
+  gap:24px;
+  max-width:1440px;
+  padding:22px 20px 40px;
+  margin:0 auto;
+}
+.lnav{grid-area:nav; min-width:0;}
+.content{grid-area:main; min-width:0;}
+.rail{grid-area:rail; min-width:0;}
+
+/* Medium screens */
+@media (max-width:1280px){
+  .app{grid-template-columns:200px minmax(0,1fr) 280px; gap:20px;}
+}
+
+/* Stack rail under main to avoid crowding */
+@media (max-width:1220px){
+  .app{
+    grid-template-columns:200px minmax(0,1fr);
+    grid-template-areas:
+      "nav main"
+      "rail rail";
+  }
+}
+
+/* Single column */
+@media (max-width:980px){
+  .app{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "nav"
+      "main"
+      "rail";
+  }
+}
+
+/* ===== LEFT NAV – red border & divider ===== */
+.lnav{
+  border:1px solid var(--brand);
+  padding:18px 10px 24px 20px;
+  display:flex;flex-direction:column;gap:6px;
+  background:var(--bg);border-radius:14px;
+}
+.lnav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:var(--ink-dim)}
+.lnav a:hover,
+.lnav a[aria-current="page"]{
+  background:#141416;color:#fff;font-weight:700;
+  outline:1px solid #232326; box-shadow:0 0 0 1px rgba(230,0,35,.15) inset;
+}
+.lnav-divider{margin:12px 0;border-top:1px solid var(--brand);}
+
+/* ===== CARDS & SECTIONS ===== */
+.card,.hero,.tile,.xp,.feed{border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow-1)}
+.card{border:1px solid var(--brand);padding:16px;margin-bottom:16px}
+.hero{border:1px solid var(--brand);padding:22px 24px;align-items:center;display:flex;gap:18px}
+.tile{border:1px solid #2f3036;padding:18px 18px 16px;display:flex;flex-direction:column;justify-content:space-between;min-height:110px}
+.feed{border:1px solid var(--ink-dim);overflow:hidden}
+
+.section-title{font:800 1.1rem/1 Inter,sans-serif;letter-spacing:.2px;margin:20px 0 10px}
+
+/* HERO text */
+.hero h1{margin:0 0 6px 0;font:800 1.35rem/1.2 Inter,sans-serif;letter-spacing:.2px}
+.hero p{margin:0;color:var(--ink-dim);font-size:.97rem}
+.hero .actions{margin-left:auto;display:flex;gap:10px}
+
+/* ===== METRICS GRID ===== */
+.mtiles{display:grid;grid-template-columns:repeat(3, minmax(220px,1fr));grid-auto-rows:1fr;gap:16px;align-items:stretch}
+@media (max-width:900px){.mtiles{grid-template-columns:repeat(2, minmax(200px,1fr))}}
+@media (max-width:580px){.mtiles{grid-template-columns:1fr}}
+.tile .k{color:var(--ink-dim);font-size:.9rem;margin-bottom:8px}
+.tile .v{font-weight:800;font-size:1.4rem;line-height:1}
+.tile.brand .v{color:var(--brand)}
+.label-pill{display:inline-block;font-weight:800;font-size:.92rem;color:#f4f5f7;background:#141416;border:1px solid #23242a;padding:6px 10px;border-radius:10px}
+
+/* ===== XP PROGRESSION (topline layout) ===== */
+.xp{
+  border:1px solid #ffffff;
+  padding:18px;
+  margin-top:20px;
+}
+.xp .topline{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;
+}
+.xp .label{font-weight:800;letter-spacing:.3px;margin:0}
+.xpnote{color:var(--ink-dim);font-size:.95rem;margin:0}
+.xpbar{height:16px;border-radius:999px;background:#0f0f11;overflow:hidden;box-shadow:inset 0 0 0 4px #23242a}
+.xpfill{height:100%;width:0;border-radius:999px;background:var(--brand)}
+@media (prefers-reduced-motion:no-preference){.xpfill{transition:width .8s cubic-bezier(.25,.9,.2,1)}}
+
+/* ===== FEED ===== */
+.row{display:grid;grid-template-columns:160px minmax(0,1fr);gap:16px;padding:14px 16px;border-top:1px solid var(--border)}
+.row:first-child{border-top:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:1px solid var(--border);border-radius:10px;background:#111113;padding:10px;text-align:center}
+.stat .n{font-weight:800}
+.stat .l{font-size:.8rem;color:var(--ink-dim)}
+.stat.answer.ok{border-color:#2c2d33;background:#151517;color:#f4f5f7}
+.title{font-weight:800;font-size:1.06rem;margin:0 0 6px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--ink-dim);font-size:.92rem}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{background:var(--tag);border:1px solid #23242a;color:var(--ink-dim);padding:6px 10px;border-radius:999px;font-size:.85rem}
+.accepted{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:var(--brand)}
+.accepted .dot{width:10px;height:10px;border-radius:99px;background:var(--brand)}
+.by{margin-left:auto}
+
+/* Empty state tidy */
+.empty{
+  padding:14px 16px;
+  color:var(--ink-dim);
+  font-style:italic;
+  text-align:left;
+  margin-top:12px;
+}
+
+/* ===== RIGHT RAIL (not sticky) ===== */
+.rail{padding:0}
+
+/* ===== FOOTER ===== */
+footer{border-top:1px solid var(--border);background:var(--surface);margin-top:40px}
+.foot{height:76px;display:flex;align-items:center;justify-content:space-between;max-width:1440px;margin:0 auto;padding:0 20px;color:var(--ink-dim)}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <span class="word"><span class="half half-red">PLAYER</span><span class="half half-white">PATH</span></span>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:10px">
+      <button class="btn ghost" type="button">Sign Up</button>
+      <button class="btn ghost" type="button">Sign in</button>
+      <button class="btn primary" type="button" id="ask-btn">Ask Question</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP GRID -->
+<div class="app">
+
+  <!-- LEFT NAV -->
+  <nav class="lnav" aria-label="Sections">
+    <a href="#" aria-current="page">Home</a>
+    <a href="#">Questions</a>
+    <a href="#">Tags</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Profiles</a>
+    <div class="lnav-divider"></div>
+    <a href="#">My Top 5 Games</a>
+    <a href="#">Playbooks</a>
+    <a href="#">Challenges</a>
+    <a href="#">Guides</a>
+  </nav>
+
+  <!-- CENTER -->
+  <main class="content">
+    <!-- HERO -->
+    <section class="hero" aria-label="Intro">
+      <div>
+        <h1>
+          <span class="ppword"><span class="pp-red">PLAYER</span><span class="pp-white">PATH</span></span>
+          — ask, share, and level up your game.
+        </h1>
+        <p>Share game clips, guides, playbooks, and breakdowns—organized by title, genre, and skill. Each game hub begins with player questions, where the community responds with answers that can be upvoted, highlighted as the best answer, or confirmed as proven solutions. Every contribution—whether posting a clip, asking a question, or providing an answer—earns XP, keeps your streaks alive, and pushes you up the leaderboard. PlayerPath personalizes the experience by spotlighting your Top 5 favorite games, concentrating the biggest rewards and toughest competition on the clips, questions, and solutions that matter most to you. Show your skills, help others improve, and build your reputation as you rise through the PlayerPath community.</p>
+      </div>
+      <div class="actions">
+        <button class="btn primary" type="button">Ask a Question</button>
+        <button class="btn ghost" type="button">Browse Tags</button>
+      </div>
+    </section>
+
+    <!-- SNAPSHOT -->
+    <h2 class="section-title"><span class="label-pill">Your Snapshot</span></h2>
+    <section class="mtiles" aria-label="Metrics">
+      <div class="tile brand"><div class="k">XP</div><div class="v" id="xp-v">0</div></div>
+      <div class="tile"><div class="k">Streaks</div><div class="v" id="streak-v">0</div></div>
+      <div class="tile"><div class="k">Credit Points</div><div class="v" id="credit-v">0</div></div>
+      <div class="tile"><div class="k">Questions</div><div class="v" id="q-v">0</div></div>
+      <div class="tile"><div class="k">Accepted Answers</div><div class="v" id="acc-v">0</div></div>
+      <div class="tile"><div class="k">Game Clips</div><div class="v" id="clips-v">0</div></div>
+    </section>
+
+    <!-- XP PROGRESSION (topline) -->
+    <section class="xp" aria-label="Progress">
+      <div class="topline">
+        <div class="label">Progress to next level</div>
+        <div class="xpnote" id="xpnote">0 / 1,000 XP</div>
+      </div>
+      <div class="xpbar"><div class="xpfill" id="xpbar"></div></div>
+    </section>
+
+    <!-- TRENDING QUESTIONS -->
+    <h2 class="section-title">Trending Questions</h2>
+    <section class="feed" id="feed" aria-live="polite" aria-busy="true">
+      <div class="empty" id="empty-feed">No questions yet. Connect Firestore to populate, or be the first to ask.</div>
+      <div id="skeletons">
+        <!-- skeleton rows -->
+      </div>
+      <div id="rows"></div>
+    </section>
+  </main>
+
+  <!-- RIGHT RAIL -->
+  <aside class="rail" aria-label="Sidebar">
+    <div class="card">
+      <h3 style="margin:0 0 10px;font-size:1rem">Best Answer System</h3>
+      <div class="muted" style="color:var(--ink-dim)">When an answer hits the threshold, the row shows a red check and the “answers” tile gets highlighted.</div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 10px;font-size:1rem">Quality Checklist</h3>
+      <div class="muted" style="color:var(--ink-dim)">Title • Game & tags • What you tried • Why it failed • Expected result.</div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 10px;font-size:1rem">Playbooks</h3>
+      <div class="muted" style="color:var(--ink-dim)">Turn accepted answers into drills for repeatable practice.</div>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot">
+    <div>© <span id="yr"></span> <span class="ppword"><span class="pp-red">PLAYER</span><span class="pp-white">PATH</span></span></div>
+    <nav>
+      <a href="#">About</a> &nbsp;•&nbsp; <a href="#">How It Works</a> &nbsp;•&nbsp;
+      <a href="#">FAQ</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
